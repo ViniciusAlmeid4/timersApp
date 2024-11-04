@@ -1,0 +1,41 @@
+.text-heighlight-box {
+    border: solid 1px var(--bs-gray-200);
+    border-radius: 6px;
+    padding: 4px;
+    background-color: var(--bs-gray-200);
+}
+
+.list-timer-warning {
+    color: var(--bs-warning);    
+}
+
+.list-timer-ended {
+    background-color: var(--bs-danger);
+    color: white;
+    cursor: pointer;
+}
+
+#active-timers-list li {
+    width: 100%;
+    position: relative;
+    padding-right: 30px; /* Space for the close button */
+    transition: padding-right 0.3s ease; /* Smooth transition for padding */
+}
+
+#active-timers-list li:hover {
+    padding-right: 50px; /* Add more space on hover */
+}
+
+#active-timers-list .btn-close {
+    position: absolute;
+    right: 10px; /* Adjust right alignment */
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: inline-block; /* Ensures it occupies space */
+}
+
+#active-timers-list li:hover .btn-close {
+    opacity: 1;
+}

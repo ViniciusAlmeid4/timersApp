@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer App</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./script.js" defer></script>
+
+</head>
+
+<body class="bg-body">
+    <div class="container-fluid">
+        <div class="row text-white">
+            <div
+                class="col-12 col-md-6 col-lg-7 col-xl-8 mb-3 mb-md-0 p-4 d-flex align-items-center justify-content-center">
+                <div class="card">
+                    <div class="d-flex card-header align-items-center justify-content-center p-3">
+                        <p class="fs-3 lh-sm m-0">Cadastrar Timer</p>
+                    </div>
+                    <div class="card-body">
+                        <form id="timer-form" class="needs-validation" novalidate="">
+                            <div class="row">
+                                <div class="col-sm-12 mb-2">
+                                    <label for="firstName" class="form-label">Nome: </label>
+                                    <input type="text" class="form-control" id="name" placeholder="" value=""
+                                        required="">
+                                    <div class="invalid-feedback">
+                                        É necessário colocar um nome.
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label for="firstName" class="form-label">Tempo: </label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="time" placeholder="" required="">
+                                        <div class="d-flex ps-2" style="width: 120px;">
+                                            <select class="form-select" id="time-metric-select"
+                                                style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                                <option value="h">Hours</option>
+                                                <option value="m">Minutes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        É necessário colocar o periodo de tempo.
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">Adicionar timer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-5 col-xl-4 p-4" style="height: 100vh;">
+                <div class="text-dark card card-warnings text-center mb-3 mb-md-0 h-100">
+                    <div class="d-flex card-header align-items-center justify-content-center p-3">
+                        <p class="fs-3 lh-sm m-0">Timers</p>
+                    </div>
+                    <div class="card-body py-4" style="overflow-y: auto;">
+                        <ul class="list-group" id="active-timers-list">
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        Todos os timers ativos aparecem aqui!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-timer-ended">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <form class="row g-3">
+                        <div class="col-12">
+                            <div class="fs-5">O <span id="modal-name-timer" class="text-heighlight-box">Timer 1</span>
+                                já terminou a <span id="modal-time-ended" class="text-heighlight-box">12:45</span>
+                                minutos.</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
+                    <button class="btn btn-danger" data-bs-dismiss="modal" id="btn-confirm-timer">Confirmar
+                        Aviso</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="https://www.flaticon.com/br/icones-gratis/relogio" title="relógio ícones" class="d-none">Relógio ícones
+        criados por Freepik - Flaticon</a>
+
+</body>
+
+</html>

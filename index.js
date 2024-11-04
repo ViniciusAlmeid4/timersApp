@@ -17,7 +17,7 @@ let timers = new Map()
 // Broadcast function to send timers to all connected clients
 function broadcastTimer(timer) {
     const data = JSON.stringify({ addedTimer: timer })
-    
+
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(data)
@@ -39,7 +39,7 @@ app.post('/add-timer', (req, res) => {
 
     if (!timers.has(name)) {
         timers.set(name, { createdTime, endTime })
-        broadcastTimer({[name]:timers.get(name)})
+        broadcastTimer({ [name]: timers.get(name) })
         console.log(`Timer adicionado: Nome: ${name}, Tempo de término: ${new Date(endTime).toLocaleTimeString()}`)
         res.status(201).json({ message: 'Timer adicionado com sucesso!' })
         return
@@ -51,7 +51,7 @@ app.post('/add-timer', (req, res) => {
 
 app.post('/remove-timer', (req, res) => {
     const { name } = req.body
-    if (timers.has(name)) {        
+    if (timers.has(name)) {
         let timer = timers.get(name)
         timers.delete(name)
         console.log(`Timer removido: Nome: ${name}, Tempo de término: ${new Date(timer.endTime).toLocaleTimeString()}`)

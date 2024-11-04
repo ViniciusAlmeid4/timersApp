@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     console.log(ip);
-    
+
 })
 
 document.querySelector('#modal-timer-ended').addEventListener('hidden.bs.modal', () => {
@@ -63,7 +63,7 @@ document.querySelector('#btn-confirm-timer').addEventListener('click', () => {
 })
 
 document.querySelector('#timer-form').addEventListener('submit', async (e) => {
-    e.preventDefault() // Impede o envio padrão do formulário
+    e.preventDefault()
 
     const name = document.querySelector('#name').value
     const time = document.querySelector('#time').value

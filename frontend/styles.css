@@ -12,6 +12,9 @@
 .list-timer-ended {
     background-color: var(--bs-danger);
     color: white;
+}
+
+.list-timer-ended > div > i{
     cursor: pointer;
 }
 

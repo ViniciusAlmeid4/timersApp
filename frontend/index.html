@@ -26,17 +26,16 @@
                         <form id="timer-form" class="needs-validation" novalidate="">
                             <div class="row">
                                 <div class="col-sm-12 mb-2">
-                                    <label for="firstName" class="form-label">Nome: </label>
-                                    <input type="text" class="form-control" id="name" placeholder="" value=""
-                                        required="">
+                                    <label for="name" class="form-label">Nome: </label>
+                                    <input type="text" class="form-control" id="name" placeholder="" value="" required>
                                     <div class="invalid-feedback">
                                         É necessário colocar um nome.
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
-                                    <label for="firstName" class="form-label">Tempo: </label>
+                                    <label for="time" class="form-label">Tempo: </label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" id="time" placeholder="" required="">
+                                        <input type="number" class="form-control" id="time" placeholder="" required>
                                         <div class="d-flex ps-2" style="width: 120px;">
                                             <select class="form-select" id="time-metric-select"
                                                 style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
@@ -44,9 +43,9 @@
                                                 <option value="m">Minutes</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        É necessário colocar o periodo de tempo.
+                                        <div class="invalid-feedback">
+                                            É necessário colocar o periodo de tempo.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +79,7 @@
                         <div class="col-12">
                             <div class="fs-5">O <span id="modal-name-timer" class="text-heighlight-box">Timer 1</span>
                                 já terminou a <span id="modal-time-ended" class="text-heighlight-box">12:45</span>
-                                minutos.</div>
+                                horas.</div>
                         </div>
                     </form>
                 </div>

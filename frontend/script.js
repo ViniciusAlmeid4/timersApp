@@ -2,13 +2,16 @@ const ip = `${window.location.hostname}:${window.location.port || '3000'}`
 
 let sound, selctedTimerName
 const modalEnded = new bootstrap.Modal(document.querySelector('#modal-timer-ended'))
+const modalName = document.querySelector("#modal-name-timer")
+const modalTime = document.querySelector("#modal-time-ended")
 
 document.addEventListener('click', (event) => {
-    if (event.target.classList.contains('list-timer-ended')) {
-        modalEnded.show()
-        let selectedTimer = event.target.querySelector('.timer-name')
-        selctedTimerName = selectedTimer.innerText;
-
+    if (event.target.classList.contains('bi-stopwatch')) {
+        if (event.target.closest("li").classList.contains('list-timer-ended')) {
+            modalEnded.show()
+            let selectedTimer = event.target.closest(".d-flex").querySelector(".timer-name").innerText;
+            selctedTimerName = selectedTimer.innerText;
+        }
     }
 })
 
@@ -21,9 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     for (const [name, timerData] of Object.entries(timers)) {
         addTimerToList(name, timerData.endTime)
     }
-
-    console.log(ip);
-
 })
 
 document.querySelector('#modal-timer-ended').addEventListener('hidden.bs.modal', () => {
@@ -62,43 +62,54 @@ document.querySelector('#btn-confirm-timer').addEventListener('click', () => {
     stopSound()
 })
 
-document.querySelector('#timer-form').addEventListener('submit', async (e) => {
+document.querySelector('#timer-form').addEventListener('submit', async function (e) {
     e.preventDefault()
+    const name = document.querySelector('#name')
+    const time = document.querySelector('#time')
+    const timeMetric = document.querySelector('#time-metric-select')
 
-    const name = document.querySelector('#name').value
-    const time = document.querySelector('#time').value
-    const timeMetric = document.querySelector('#time-metric-select').value
+    if (!this.checkValidity()) {
+        e.stopPropagation()
+        if (name.value == '') {
+            console.log("Name")
+            name.classList.add("is-invalid")
+        }
+        if (time.value == '') {
+            console.log("Time")
+            time.classList.add("is-invalid")
+        }
+    } else {
+        name.classList.remove("is-invalid")
+        time.classList.remove("is-invalid")
 
-    console.table(name, time, timeMetric);
+        let endTime = new Date()
+        let curr = new Date()
 
+        if (timeMetric.value === "h") {
+            endTime.setHours(endTime.getHours() + parseInt(time.value))
+        } else if (timeMetric === "m") {
+            endTime.setMinutes(endTime.getMinutes() + parseInt(time.value))
+        }
 
-    let endTime = new Date()
-    let curr = new Date()
+        try {
+            const response = await fetch(`http://${ip}/add-timer`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: [name.value], endTime, createdTime: curr }),
+            })
 
-    if (timeMetric === "h") {
-        endTime.setHours(endTime.getHours() + parseInt(time))
-    } else if (timeMetric === "m") {
-        endTime.setMinutes(endTime.getMinutes() + parseInt(time))
-    }
+            // if (response.status == 201) {
+            //     const data = await response.json()
+            // } else {
+            //     // error
+            // }
 
-    try {
-        const response = await fetch(`http://${ip}/add-timer`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, endTime, createdTime: curr }),
-        })
-
-        // if (response.status == 201) {
-        //     const data = await response.json()
-        // } else {
-        //     // error
-        // }
-
-    } catch (error) {
-        document.querySelector('#response-message').innerText = 'Erro ao adicionar timer!'
-        console.error('Erro:', error)
+        } catch (error) {
+            document.querySelector('#response-message').innerText = 'Erro ao adicionar timer!'
+            console.error('Erro:', error)
+        }
     }
 })
 
@@ -159,23 +170,23 @@ function stopSound() {
 }
 
 function addTimerToList(name, endTime) {
-    const timerList = document.querySelector('#active-timers-list')
     /*
         <li class="list-group-item d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center justify-content-between" style="min-width: 95px">
+            <div class="d-flex align-items-center" style="min-width: 100px">
                 <i class="bi bi-stopwatch" style="font-size: 35px"></i>
-                <strong class="d-inline-block timer-name">World</strong>
+                <strong class="d-inline-block timer-name mx-4">teste</strong>
             </div>
-            <p class="card-text mb-0 text-nowrap" data-end-time="">
-                18:20 m
-            </p>
+            <p class="card-text mb-0 text-nowrap" data-end-time="2024-11-06T01:39:28.384Z">00 : 00 : 40</p>
+            <button class="btn-close position-absolute end-0 me-2 fade" style="transition: opacity 0.3s; opacity: 0;"></button>
         </li>
     */
+
+    const timerList = document.querySelector('#active-timers-list')
     const listItem = document.createElement('li')
     listItem.className = 'list-group-item d-flex align-items-center justify-content-between'
 
     const div = document.createElement('div')
-    div.className = 'd-flex align-items-center justify-content-between'
+    div.className = 'd-flex align-items-center'
     div.setAttribute('style', 'min-width: 100px')
 
     const i = document.createElement('i')
@@ -183,7 +194,7 @@ function addTimerToList(name, endTime) {
     i.setAttribute('style', 'font-size: 35px')
 
     const strong = document.createElement('strong')
-    strong.className = 'd-inline-block timer-name px-2'
+    strong.className = 'd-inline-block timer-name mx-4'
     strong.innerText = name
 
     const p = document.createElement('p')
@@ -243,6 +254,12 @@ function checkTimers() {
                 selctedTimerName = selectedTimer.innerText;
                 modalEnded.show()
                 playSound()
+            }
+
+
+            if (li.querySelector('.timer-name').innerText == selctedTimerName) {
+                modalName.innerHTML = selctedTimerName
+                modalTime.innerHTML = timeClock.string
             }
         } else if (timeClock.timeDiff <= 300000) {
             if (!li.classList.contains('list-timer-warning')) {

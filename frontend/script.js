@@ -87,9 +87,10 @@ document.querySelector('#timer-form').addEventListener('submit', async function 
 
         if (timeMetric.value === "h") {
             endTime.setHours(endTime.getHours() + parseInt(time.value))
-        } else if (timeMetric === "m") {
+        } else if (timeMetric.value === "m") {
             endTime.setMinutes(endTime.getMinutes() + parseInt(time.value))
         }
+        console.log(endTime);
 
         try {
             const response = await fetch(`http://${ip}/add-timer`, {
